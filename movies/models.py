@@ -1,21 +1,24 @@
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
 
 
-class Movie(models.Model):
-    name = models.CharField(max_length=255)
-    release_year = models.IntegerField()
+class Post(models.Model):
+    title = models.CharField(max_length=200)  # Título da postagem
+    content = models.TextField()              # Conteúdo em HTML
+    post_date = models.DateTimeField(default=timezone.now)  # Data da postagem
     poster_url = models.URLField(max_length=200, null=True)
 
+
     def __str__(self):
-        return f"{self.name} ({self.release_year})"
+        return self.title
 
 
 class Review(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     text = models.CharField(max_length=255)
     likes = models.IntegerField(default=0)
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    movie = models.ForeignKey(Post, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'"{self.text}" - {self.author.username}'
@@ -24,7 +27,7 @@ class Review(models.Model):
 class List(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    movies = models.ManyToManyField(Movie)
+    movies = models.ManyToManyField(Post)
 
     def __str__(self):
         return f"{self.name} by {self.author}"
@@ -32,7 +35,7 @@ class List(models.Model):
 
 class Provider(models.Model):
     movie = models.OneToOneField(
-        Movie,
+        Post,
         on_delete=models.CASCADE,
         primary_key=True,
     )

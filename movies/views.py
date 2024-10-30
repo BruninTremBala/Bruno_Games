@@ -2,17 +2,17 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
-from .models import Movie, Review, List, Provider
+from .models import Post, Review, List, Provider
 from .forms import MovieForm, ReviewForm, ProviderForm
 
 
 class MovieListView(generic.ListView):
-    model = Movie
+    model = Post
     template_name = "movies/index.html"
 
 
 def detail_movie(request, movie_id):
-    movie = get_object_or_404(Movie, pk=movie_id)
+    movie = get_object_or_404(Post, pk=movie_id)
     context = {"movie": movie}
     return render(request, "movies/detail.html", context)
 
@@ -21,7 +21,7 @@ def search_movies(request):
     context = {}
     if request.GET.get("query", False):
         search_term = request.GET["query"].lower()
-        movie_list = Movie.objects.filter(name__icontains=search_term)
+        movie_list = Post.objects.filter(name__icontains=search_term)
         context = {"movie_list": movie_list}
     return render(request, "movies/search.html", context)
 
@@ -31,7 +31,7 @@ def create_movie(request):
         movie_form = MovieForm(request.POST)
         provider_form = ProviderForm(request.POST)
         if movie_form.is_valid():
-            movie = Movie(**movie_form.cleaned_data)
+            movie = Post(**movie_form.cleaned_data)
             movie.save()
             if provider_form.is_valid() and provider_form.cleaned_data["service"]:
                 provider = Provider(movie=movie, **provider_form.cleaned_data)
@@ -45,7 +45,7 @@ def create_movie(request):
 
 
 def update_movie(request, movie_id):
-    movie = get_object_or_404(Movie, pk=movie_id)
+    movie = get_object_or_404(Post, pk=movie_id)
 
     if request.method == "POST":
         form = MovieForm(request.POST)
@@ -69,7 +69,7 @@ def update_movie(request, movie_id):
 
 
 def delete_movie(request, movie_id):
-    movie = get_object_or_404(Movie, pk=movie_id)
+    movie = get_object_or_404(Post, pk=movie_id)
 
     if request.method == "POST":
         movie.delete()
@@ -80,7 +80,7 @@ def delete_movie(request, movie_id):
 
 
 def create_review(request, movie_id):
-    movie = get_object_or_404(Movie, pk=movie_id)
+    movie = get_object_or_404(Post, pk=movie_id)
     if request.method == "POST":
         form = ReviewForm(request.POST)
         if form.is_valid():

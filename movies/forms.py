@@ -1,18 +1,20 @@
 from django.forms import ModelForm
-from .models import Movie, Review, Provider
+from .models import Post, Review, Provider
 
 
 class MovieForm(ModelForm):
     class Meta:
-        model = Movie
+        model = Post
         fields = [
-            "name",
-            "release_year",
-            "poster_url",
+            "title",
+            "content",
+            "post_date",
+            "poster_url"
         ]
         labels = {
-            "name": "Título",
-            "release_year": "Data de Lançamento",
+            "title": "Título",
+            "content" : "Conteúdo",
+            "post_date": "Data da postagem",
             "poster_url": "URL do Poster",
         }
 
