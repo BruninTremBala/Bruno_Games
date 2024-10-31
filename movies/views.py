@@ -2,14 +2,18 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
-from .models import Post, Review, List, Provider
-from .forms import MovieForm, ReviewForm, ProviderForm
+from .models import Post
+from .forms import MovieForm
 
 
 class MovieListView(generic.ListView):
     model = Post
     template_name = "movies/index.html"
 
+def list_movies(request):
+    movie_list = Post.objects.all()
+    context = {'movie_list': movie_list}
+    return render(request, 'movies/index.html', context)
 
 def detail_movie(request, movie_id):
     movie = get_object_or_404(Post, pk=movie_id)
@@ -29,18 +33,13 @@ def search_movies(request):
 def create_movie(request):
     if request.method == "POST":
         movie_form = MovieForm(request.POST)
-        provider_form = ProviderForm(request.POST)
         if movie_form.is_valid():
             movie = Post(**movie_form.cleaned_data)
             movie.save()
-            if provider_form.is_valid() and provider_form.cleaned_data["service"]:
-                provider = Provider(movie=movie, **provider_form.cleaned_data)
-                provider.save()
             return HttpResponseRedirect(reverse("movies:detail", args=(movie.pk,)))
     else:
         movie_form = MovieForm()
-        provider_form = ProviderForm()
-    context = {"movie_form": movie_form, "provider_form": provider_form}
+    context = {"movie_form": movie_form}
     return render(request, "movies/create.html", context)
 
 
@@ -50,17 +49,21 @@ def update_movie(request, movie_id):
     if request.method == "POST":
         form = MovieForm(request.POST)
         if form.is_valid():
-            movie.name = form.cleaned_data["name"]
-            movie.release_year = form.cleaned_data["release_year"]
+            movie.title = form.cleaned_data["title"]
+            movie.genre = form.cleaned_data["genre"]
+            movie.content = form.cleaned_data["content"]
+            movie.post_date = form.cleaned_data["post_date"]
             movie.poster_url = form.cleaned_data["poster_url"]
             movie.save()
             return HttpResponseRedirect(reverse("movies:detail", args=(movie.id,)))
     else:
         form = MovieForm(
             initial={
-                "name": movie.name,
-                "release_year": movie.release_year,
-                "poster_url": movie.poster_url,
+                "title": movie.title,
+                "genre": movie.genre,
+                "content": movie.content,
+                "post_date": movie.post_date,
+                "poster_url": movie.poster_url
             }
         )
 
@@ -78,30 +81,3 @@ def delete_movie(request, movie_id):
     context = {"movie": movie}
     return render(request, "movies/delete.html", context)
 
-
-def create_review(request, movie_id):
-    movie = get_object_or_404(Post, pk=movie_id)
-    if request.method == "POST":
-        form = ReviewForm(request.POST)
-        if form.is_valid():
-            review_author = form.cleaned_data["author"]
-            review_text = form.cleaned_data["text"]
-            review = Review(author=review_author, text=review_text, movie=movie)
-            review.save()
-            return HttpResponseRedirect(reverse("movies:detail", args=(movie_id,)))
-    else:
-        form = ReviewForm()
-    context = {"form": form, "movie": movie}
-    return render(request, "movies/review.html", context)
-
-
-class ListListView(generic.ListView):
-    model = List
-    template_name = "movies/lists.html"
-
-
-class ListCreateView(generic.CreateView):
-    model = List
-    template_name = "movies/create_list.html"
-    fields = ["name", "author", "movies"]
-    success_url = reverse_lazy("movies:lists")

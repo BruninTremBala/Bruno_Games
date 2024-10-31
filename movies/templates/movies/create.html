@@ -7,7 +7,6 @@
     <form action="{% url 'movies:create' %}" method="post">
         {% csrf_token %}
         {{ movie_form.as_p }}
-        {{ provider_form.as_p }}
         <button type="submit">Criar</button>
     </form>
 {% endblock content %}

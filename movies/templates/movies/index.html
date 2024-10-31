@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h2>Todos os Filmes</h2>
+    <h2>Todos os Games</h2>
     <section>
         <p>
-            Muitos resultados? <a href="{% url 'movies:search' %}">Buscar Filmes</a>
+            Muitos resultados? <a href="{% url 'movies:search' %}">Buscar games</a>
         </p>
         <p>
-            Não encontrou o filme?
-            <a href="{% url 'movies:create' %}">Adicionar Novo Filme</a>
+            Não encontrou o game?
+            <a href="{% url 'movies:create' %}">Adicionar novo game</a>
         </p>
     </section>
     {% if movie_list %}
@@ -15,13 +15,14 @@
             {% for movie in movie_list %}
                 <article class="card">
                     <a href="{% url 'movies:detail' movie.id %}">
-                        <img src="{{ movie.poster_url }}" alt="Poster do filme {{ movie.name }}" />
+                        <img src="{{ movie.poster_url }}" alt="Poster do filme {{ movie.title }}" />
                     </a>
-                    <p>{{ movie.name }} ({{ movie.release_year }})</p>
+                    <p>{{ movie.title }}</p>
+                    <p><strong>Gênero:</strong> {{ movie.genre }}</p>
                 </article>
             {% endfor %}
         </section>
     {% else %}
-        <p>Não foi encontrado nenhum filme.</p>
+        <p>Não foi encontrado nenhum post.</p>
     {% endif %}
 {% endblock content %}

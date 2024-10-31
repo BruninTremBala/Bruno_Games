@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h2>Atualizar Dados do Filme {{ movie.name }} ({{ movie.release_year }})</h2>
+    <h2>Atualizar Dados do Game {{ movie.name }} ({{ movie.release_year }})</h2>
     <form method="POST" action="{% url 'movies:update' movie.id %}">
         {% csrf_token %}
         {{ form.as_p }}
