@@ -1,21 +1,18 @@
 {% extends 'base.html' %}
-{% block title %}
-    {{ movie.title   }}
-{% endblock title %}
 {% block content %}
-    <h2>Detalhes do Game {{ movie.title }} </h2>
+    <h2>Detalhes do game {{ object.title }} </h2>
     <section class="dados-de-filme">
-        <img src="{{ movie.poster_url }}" alt="Poster do filme {{ movie.title}}">
+        <img src="{{ object.poster_url }}" alt="Poster do filme {{ object.title }}">
         <ul>
-            <li>Nome: {{ movie.title }}</li>
-            <li>Gênero: {{ movie.genre }}</li>
-            <li>Data Do Post: {{ movie.post_date }}</li>
-            <li>Análise: {{ movie.content }}</li>
+            <li>Nome: {{ object.title }}</li>
+            <li>Gênero: {{ object.genre }}</li>
+            <li>Data Do Post: {{ object.post_date }}</li>
+            <li>Análise: {{ object.content }}</li>
             <li>
-                <a href="{% url 'movies:update' movie.id %}">Editar</a>
+                <a href="{% url 'movies:update' object.id %}">Editar</a>
             </li>
             <li>
-                <a href="{% url 'movies:delete' movie.id %}">Apagar</a>
+                <a href="{% url 'movies:delete' object.id %}">Apagar</a>
             </li>
         </ul>
     </section>

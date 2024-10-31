@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
     <h2>Confirmação de Exclusão</h2>
-    <form action="{% url 'movies:delete' movie.id %}" method="post">
+    <form action="{% url 'movies:delete' object.id %}" method="post">
         {% csrf_token %}
-        <p>Você tem certeza que deseja apagar o game "{{ movie.title }}"?</p>
+        <p>Você tem certeza que deseja apagar o game "{{ object.title }}"?</p>
         <button type="submit">Apagar</button>
-        <a href="{% url 'movies:detail' movie.id %}">Cancelar</a>
+        <a href="{% url 'movies:detail' object.id %}">Cancelar</a>
     </form>
 {% endblock content %}

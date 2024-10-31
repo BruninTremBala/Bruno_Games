@@ -6,9 +6,40 @@ from .models import Post
 from .forms import MovieForm
 
 
+from django.urls import reverse_lazy
+from django.views import generic
+from .models import Post
+from .forms import MovieForm
+
 class MovieListView(generic.ListView):
     model = Post
     template_name = "movies/index.html"
+    context_object_name = "movie_list"
+
+class MovieDetailView(generic.DetailView):
+    model = Post
+    template_name = "movies/detail.html"
+
+class MovieCreateView(generic.CreateView):
+    model = Post
+    form_class = MovieForm
+    template_name = "movies/create.html"
+
+    def get_success_url(self):
+        return reverse_lazy("movies:detail", args=(self.object.pk,))
+
+class MovieUpdateView(generic.UpdateView):
+    model = Post
+    form_class = MovieForm
+    template_name = "movies/update.html"
+
+    def get_success_url(self):
+        return reverse_lazy("movies:detail", args=(self.object.pk,))
+
+class MovieDeleteView(generic.DeleteView):
+    model = Post
+    template_name = "movies/delete.html"
+    success_url = reverse_lazy("movies:index")
 
 def list_movies(request):
     movie_list = Post.objects.all()

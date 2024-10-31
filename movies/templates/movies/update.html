@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h2>Atualizar Dados do Game {{ movie.title }}</h2>
-    <form method="POST" action="{% url 'movies:update' movie.id %}">
+    <h2>Atualizar Dados do Game {{ object.title }}</h2>
+    <form method="POST" action="{% url 'movies:update' object.id %}">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Atualizar</button>
