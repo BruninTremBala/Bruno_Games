@@ -4,9 +4,23 @@
 {% endblock title %}
 {% block content %}
     <h2>Adicionar Filme</h2>
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
     <form action="{% url 'movies:create' %}" method="post">
         {% csrf_token %}
-        {{ movie_form.as_p }}
+        <label for="title">Título:</label>
+        <input type="text" name="title" id="title" required><br>
+
+        <label for="genre">Gênero:</label>
+        <input type="text" name="genre" id="genre" required><br>
+
+        <label for="content">Conteúdo:</label>
+        <textarea name="content" id="content" required></textarea><br>
+
+        <label for="poster_url">URL do Poster:</label>
+        <input type="url" name="poster_url" id="poster_url"><br>
+
         <button type="submit">Criar</button>
     </form>
 {% endblock content %}

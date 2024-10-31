@@ -1,9 +1,21 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h2>Atualizar Dados do Game {{ movie.name }} ({{ movie.release_year }})</h2>
+    <h2>Atualizar Dados do Game {{ movie.title }}</h2>
     <form method="POST" action="{% url 'movies:update' movie.id %}">
         {% csrf_token %}
-        {{ form.as_p }}
+
+        <label for="title">Título:</label>
+        <input type="text" name="title" id="title" value="{{ movie.title }}" required><br>
+
+        <label for="genre">Gênero:</label>
+        <input type="text" name="genre" id="genre" value="{{ movie.genre }}" required><br>
+
+        <label for="content">Conteúdo:</label>
+        <textarea name="content" id="content" required>{{ movie.content }}</textarea><br>
+
+        <label for="poster_url">URL do Poster:</label>
+        <input type="url" name="poster_url" id="poster_url" value="{{ movie.poster_url }}"><br>
+
         <button type="submit">Atualizar</button>
     </form>
 {% endblock content %}
