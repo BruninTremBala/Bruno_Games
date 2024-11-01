@@ -27,9 +27,9 @@ SECRET_KEY = "django-insecure-9$kvk_dsvd#5!b%y0py@e7_!9$o0=gktct*d!n=(g&z0r1^jzh
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", ".onrender.com"]
+ALLOWED_HOSTS = ["127.0.0.1", ".onrender.com"] # modifique esta linha
 
-CSRF_TRUSTED_ORIGINS = ["https://*.onrender.com/"]
+CSRF_TRUSTED_ORIGINS = ["https://*.onrender.com/"] # adicione esta linha
 
 
 # Application definition
@@ -142,3 +142,4 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_URL = '/accounts/login/'
+
