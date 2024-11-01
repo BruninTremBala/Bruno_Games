@@ -8,6 +8,12 @@
             <li>Gênero: {{ object.genre }}</li>
             <li>Data Do Post: {{ object.post_date }}</li>
             <li>Análise: {{ object.content }}</li>
+                        <li>
+                <strong>Categorias:</strong>
+                {% for category in object.categories.all %}
+                    <a href="{% url 'movies:category_detail' category.id %}">{{ category.name }}</a>{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </li>
             <li>
                 <a href="{% url 'movies:update' object.id %}">Editar</a>
             </li>

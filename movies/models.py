@@ -4,12 +4,21 @@ from django.contrib.auth import get_user_model
 from django.utils import timezone
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
 class Post(models.Model):
     title = models.CharField(max_length=200)
-    genre = models.CharField(max_length=100)# Título da postagem
-    content = models.TextField()              # Conteúdo em HTML
-    post_date = models.DateTimeField(default=timezone.now)  # Data da postagem
+    genre = models.CharField(max_length=100)
+    content = models.TextField()
+    post_date = models.DateTimeField(default=timezone.now)
     poster_url = models.URLField(max_length=200, null=True)
+    categories = models.ManyToManyField(Category, related_name='posts')  # Novo campo de categorias
+
     def __str__(self):
         return self.title
 

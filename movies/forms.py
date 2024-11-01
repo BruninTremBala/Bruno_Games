@@ -1,4 +1,4 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, CheckboxSelectMultiple
 from .models import Post
 
 
@@ -10,7 +10,8 @@ class MovieForm(ModelForm):
             "genre",
             "content",
             "post_date",
-            "poster_url"
+            "poster_url",
+            "categories"
         ]
         labels = {
             "title": "Título",
@@ -18,6 +19,10 @@ class MovieForm(ModelForm):
             "content" : "Conteúdo",
             "post_date": "Data da postagem",
             "poster_url": "URL do Poster",
+            "categories": "Categorias"
+        }
+        widgets = {
+            'categories': CheckboxSelectMultiple(),  # Exibe as categorias como uma lista de checkboxes
         }
 
 

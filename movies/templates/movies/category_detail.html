@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Posts na Categoria: {{ category.name }}</h2>
+    <p>{{ category.description }}</p>
+    {% if posts %}
+        <section class="lista-de-cards">
+            {% for post in posts %}
+                <article class="card">
+                    <a href="{% url 'movies:detail' post.id %}">
+                        <img src="{{ post.poster_url }}" alt="Poster do filme {{ post.title }}">
+                    </a>
+                    <p>{{ post.title }}</p>
+                    <p><strong>Gênero:</strong> {{ post.genre }}</p>
+                </article>
+            {% endfor %}
+        </section>
+    {% else %}
+        <p>Não há posts nesta categoria.</p>
+    {% endif %}
+{% endblock content %}

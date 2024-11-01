@@ -3,9 +3,25 @@ from django.urls import reverse, reverse_lazy
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.views import generic
-from .models import Post, Comment
+from .models import Post, Comment, Category
 from .forms import MovieForm
 from django.utils import timezone
+
+
+class CategoryListView(generic.ListView):
+    model = Category
+    template_name = 'movies/category_list.html'
+    context_object_name = 'categories'
+
+class CategoryDetailView(generic.DetailView):
+    model = Category
+    template_name = 'movies/category_detail.html'
+    context_object_name = 'category'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['posts'] = self.object.posts.all()  # Lista de posts na categoria
+        return context
 
 @login_required
 def add_comment(request, post_id):

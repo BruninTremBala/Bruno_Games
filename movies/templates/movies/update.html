@@ -3,7 +3,32 @@
     <h2>Atualizar Dados do Game {{ object.title }}</h2>
     <form method="POST" action="{% url 'movies:update' object.id %}">
         {% csrf_token %}
-        {{ form.as_p }}
+        <div>
+            <label for="id_title">Título:</label>
+            {{ form.title }}
+        </div>
+        <div>
+            <label for="id_genre">Gênero:</label>
+            {{ form.genre }}
+        </div>
+        <div>
+            <label for="id_content">Conteúdo:</label>
+            {{ form.content }}
+        </div>
+        <div>
+            <label for="id_post_date">Data da postagem:</label>
+            {{ form.post_date }}
+        </div>
+        <div>
+            <label for="id_poster_url">URL do Poster:</label>
+            {{ form.poster_url }}
+        </div>
+        <div class="categorias-checkboxes">
+            <label>Categorias:</label>
+            <div class="checkbox-group">
+                {{ form.categories }}
+            </div>
+        </div>
         <button type="submit">Atualizar</button>
     </form>
 {% endblock content %}
