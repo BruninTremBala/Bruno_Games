@@ -17,4 +17,20 @@
         </ul>
     </section>
     <hr>
+    <h3>Comentários</h3>
+    {% if object.comments.all %}
+        <ul>
+            {% for comment in object.comments.all %}
+                <li>
+                    <strong>{{ comment.author }}</strong> - {{ comment.created_date|date:"d M Y H:i" }}<br>
+                    {{ comment.text }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Sem comentários ainda. Seja o primeiro a comentar!</p>
+    {% endif %}
+
+    <!-- Link para adicionar um comentário -->
+    <a href="{% url 'movies:review' object.id %}">Adicionar Comentário</a>
 {% endblock content %}

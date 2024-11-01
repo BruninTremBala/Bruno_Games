@@ -1,15 +1,28 @@
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from django.views import generic
-from .models import Post
+from .models import Post, Comment
 from .forms import MovieForm
+from django.utils import timezone
 
+@login_required
+def add_comment(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    if request.method == 'POST':
+        text = request.POST.get('text')
+        if text:
+            comment = Comment(
+                post=post,
+                author=request.user,
+                text=text,
+                created_date=timezone.now()
+            )
+            comment.save()
+            return redirect('movies:detail', pk=post.id)
+    return render(request, 'movies/review.html', {'post': post})
 
-from django.urls import reverse_lazy
-from django.views import generic
-from .models import Post
-from .forms import MovieForm
 
 class MovieListView(generic.ListView):
     model = Post

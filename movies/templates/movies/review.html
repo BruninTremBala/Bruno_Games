@@ -1,12 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h2>Resenhar Filme {{ movie.name }} ({{ movie.release_year }})</h2>
-    <form action="{% url 'movies:review' movie.id %}" method="post">
+    <h2>Adicionar Comentário</h2>
+    <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Postar Resenha</button>
+        <textarea name="text" rows="4" placeholder="Escreva seu comentário..." required></textarea><br>
+        <button type="submit">Comentar</button>
     </form>
-    <p>
-        <a href="{% url 'movies:detail' movie.id %}">Voltar para a página do filme</a>
-    </p>
+    <a href="{% url 'movies:detail' post.id %}">Voltar</a>
 {% endblock content %}
