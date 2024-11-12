@@ -83,13 +83,11 @@ WSGI_APPLICATION = "moviesite.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(default='postgresql://brunopaschoal:QrDAqNHrTGyrIyGtBPMkWloaA1DbpbI1@dpg-cspmiqt2ng1s73d3ko7g-a.oregon-postgres.render.com/bruno_games')
-}
-
-if os.environ.get("DATABASE_URL"):
-    DATABASES["default"] = dj_database_url.config(
-        conn_max_age=600,
+    'default': dj_database_url.config(
+        default='postgresql://brunopaschoal:QrDAqNHrTGyrIyGtBPMkWloaA1DbpbI1@dpg-cspmiqt2ng1s73d3ko7g-a.oregon-postgres.render.com/bruno_games',
+        conn_max_age=600  # Mantém a conexão por 10 minutos para evitar desconexões frequentes
     )
+}
 
 
 # Password validation
